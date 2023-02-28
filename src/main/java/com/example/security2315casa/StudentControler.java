@@ -13,10 +13,6 @@ import java.util.List;
 @RequestMapping("students")
 public class StudentControler {
 
-    public StudentControler() {
-        System.err.println("intentando sobrevivior");
-    }
-
     private static final List<Student> STUDENTS= Arrays.asList(
             new Student(1,"Felipe"),
             new Student(2,"Arturo"),
