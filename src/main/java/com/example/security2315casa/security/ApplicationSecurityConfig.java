@@ -38,10 +38,12 @@ public class ApplicationSecurityConfig
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests()
+                .requestMatchers("/","/index.html")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic();
         return http.build();
     }
     @Bean
