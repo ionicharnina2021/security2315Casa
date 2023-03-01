@@ -44,7 +44,7 @@ public class ApplicationSecurityConfig
                 .requestMatchers("/","/index.html","/css/*","/assets/*","/js/*")
                 .permitAll()
                 .requestMatchers(HttpMethod.POST,"/students/add")
-                .hasRole(ApplicationUserRol.ADMIN.name())
+                .hasAuthority(ApplicationUserPermission.STUDENT_WRITE.getPermission())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -56,7 +56,7 @@ public class ApplicationSecurityConfig
         UserDetails joseUser = User.builder()
                 .username("jose")
                 .password(passwordEncoder.encode("123"))
-                .roles(ApplicationUserRol.ADMIN.name())
+                .authorities(ApplicationUserPermission.STUDENT_WRITE.getPermission())
                 .build();
         UserDetails luisUser = User.builder()
                 .username("luis")
