@@ -3,6 +3,7 @@ package com.example.security2315casa.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 //deprecated
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -37,9 +38,19 @@ public class ApplicationSecurityConfig
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        //Bo se puede por ahora seleccionar operacion POST para aceptar porque tiene la csrf()
+//        http.csrf().disable().authorizeHttpRequests()
         http.authorizeHttpRequests()
-                .requestMatchers("/","/index.html")
+                .requestMatchers("/","/index.html","/css/*","/assets/*","/js/*")
                 .permitAll()
+                //observa que el parametro de patterns es un desesctructuracion
+                .requestMatchers(HttpMethod.GET,"/students/all").hasRole(ApplicationUserRol.ADMIN.name())
+                //no pomer esto y quitar todos los GET
+//                .requestMatchers(HttpMethod.POST,"/students/add").hasRole(ApplicationUserRol.ADMIN.name())
+                .requestMatchers(HttpMethod.GET,"/students/{studentId}").hasRole(ApplicationUserRol.GUEST.name())
+                //no puede estar vacio
+                //.requestMatchers(HttpMethod.GET,"/students/other").hasAnyRole()
+                //lo probamos con y sin
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -53,9 +64,14 @@ public class ApplicationSecurityConfig
                 .password(passwordEncoder.encode("123"))
                 .roles(ApplicationUserRol.ADMIN.name())
                 .build();
+        UserDetails luisUser = User.builder()
+                .username("luis")
+                .password(passwordEncoder.encode("123"))
+                .roles(ApplicationUserRol.GUEST.name())
+                .build();
         //esta es una clase que implementa la interface en concreto la que almacena en memoria
         return new InMemoryUserDetailsManager(
-                joseUser
+                joseUser,luisUser
         );
     }
 

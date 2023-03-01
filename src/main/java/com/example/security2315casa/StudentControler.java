@@ -1,10 +1,8 @@
 package com.example.security2315casa;
 
 import com.example.security2315casa.modelo.Student;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class StudentControler {
             new Student(3,"julian"),
             new Student(4,"antonio")
     );
-    @GetMapping("/{studentId}")
+    @GetMapping("{studentId}")
     public Student getStudent(@PathVariable("studentId") Integer studentID){
         return STUDENTS.stream()
                 .filter(stu->
@@ -29,8 +27,20 @@ public class StudentControler {
                          new IllegalStateException("El estudiante no existe"));
     }
 
-    @GetMapping("/all")
+    @GetMapping("all")
     public List<Student> getStudents(){
         return STUDENTS;
+    }
+
+    @GetMapping("other")
+    public boolean getOther(){
+        return true;
+    }
+
+    @PostMapping("add")
+    public boolean addStudent(){
+        boolean alfonse = STUDENTS.add(new Student(5, "Alfonse"));
+        System.out.println("me permite modificar "+ alfonse);
+        return alfonse;
     }
 }
