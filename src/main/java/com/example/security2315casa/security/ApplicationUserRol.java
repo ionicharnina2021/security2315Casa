@@ -13,7 +13,10 @@ public enum ApplicationUserRol {
     private final Set<ApplicationUserPermission> permissions;
 
     ApplicationUserRol(Set<ApplicationUserPermission> permissions) {
+
         this.permissions = permissions;
+        //Esto era todo el fallo
+        getGrantedAuthorities();
     }
 
     public Set<ApplicationUserPermission> getPermissions() {

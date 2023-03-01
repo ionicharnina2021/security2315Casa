@@ -38,19 +38,13 @@ public class ApplicationSecurityConfig
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        //Bo se puede por ahora seleccionar operacion POST para aceptar porque tiene la csrf()
-//        http.csrf().disable().authorizeHttpRequests()
-        http.authorizeHttpRequests()
+        http
+                .csrf().disable()
+                .authorizeHttpRequests()
                 .requestMatchers("/","/index.html","/css/*","/assets/*","/js/*")
                 .permitAll()
-                //observa que el parametro de patterns es un desesctructuracion
-                .requestMatchers(HttpMethod.GET,"/students/all").hasRole(ApplicationUserRol.ADMIN.name())
-                //no pomer esto y quitar todos los GET
-//                .requestMatchers(HttpMethod.POST,"/students/add").hasRole(ApplicationUserRol.ADMIN.name())
-                .requestMatchers(HttpMethod.GET,"/students/{studentId}").hasRole(ApplicationUserRol.GUEST.name())
-                //no puede estar vacio
-                //.requestMatchers(HttpMethod.GET,"/students/other").hasAnyRole()
-                //lo probamos con y sin
+                .requestMatchers(HttpMethod.POST,"/students/add")
+                .hasRole(ApplicationUserRol.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()

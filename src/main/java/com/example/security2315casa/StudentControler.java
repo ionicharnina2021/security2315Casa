@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("students")
+@RequestMapping("/students")
 public class StudentControler {
 
     private static final List<Student> STUDENTS= Arrays.asList(
@@ -37,10 +37,9 @@ public class StudentControler {
         return true;
     }
 
-    @PostMapping("add")
+    @PostMapping("/add")
     public boolean addStudent(){
-        boolean alfonse = STUDENTS.add(new Student(5, "Alfonse"));
-        System.out.println("me permite modificar "+ alfonse);
-        return alfonse;
+
+        return true;
     }
 }
